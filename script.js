@@ -1,3 +1,11 @@
+const cartSection = document.querySelector('ol');
+const priceSave = document.querySelector('.total-price');
+
+const localSave = () => {
+  localStorage.setItem('chave', cartSection.innerHTML);
+  localStorage.setItem('priceKey', priceSave.innerText);
+};
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -28,8 +36,29 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const updateTotalPrice = (total) => {
+  priceSave.innerText = total;
+};
+
+const addPrice = (price) => {
+  let totalPriceSpan = priceSave.innerText;
+  totalPriceSpan = Math.round((Number(totalPriceSpan) * 100) + (price * 100)) / 100;
+  updateTotalPrice(totalPriceSpan);
+};
+
+const removePrice = (price) => {
+  let totalPriceSpan = priceSave.innerText;
+  totalPriceSpan = Math.round((Number(totalPriceSpan) * 100) - (price * 100)) / 100;
+  updateTotalPrice(totalPriceSpan);
+};
+
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const cartItem = event.target;
+  cartItem.parentElement.removeChild(cartItem);
+  const priceItemString = cartItem.innerText.split('$')[1];
+  const priceItemNumber = parseFloat(priceItemString);
+  removePrice(priceItemNumber);
+  localSave();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -61,11 +90,23 @@ const addProductToShoppingCart = async () => {
       const liProduct = createCartItemElement(responseJson);
       const cartItems = document.querySelector('.cart__items');
       cartItems.appendChild(liProduct);
+      addPrice(responseJson.price);
+      localSave();
     });
   });
 };
 
+const getLocal = () => {
+  cartSection.innerHTML = localStorage.getItem('chave');
+  const cartItem2 = document.querySelectorAll('.cart__item');
+  cartItem2.forEach((element) => {
+    element.addEventListener('click', cartItemClickListener);
+  });
+  priceSave.innerHTML = localStorage.getItem('priceKey');
+};
+
 window.onload = async () => {
   await createProductList();
-  addProductToShoppingCart();
+  await addProductToShoppingCart();
+  getLocal();
 };
