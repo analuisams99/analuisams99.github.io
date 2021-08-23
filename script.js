@@ -96,6 +96,17 @@ const addProductToShoppingCart = async () => {
   });
 };
 
+const emptyCart = () => {
+  const buttonEmpty = document.querySelector('.empty-cart');
+  buttonEmpty.addEventListener('click', () => {
+    cartSection.innerHTML = '';
+    let emptyPrice = priceSave.innerHTML;
+    emptyPrice = 0;
+    updateTotalPrice(emptyPrice);
+    localSave();
+  });
+};
+
 const getLocal = () => {
   cartSection.innerHTML = localStorage.getItem('chave');
   const cartItem2 = document.querySelectorAll('.cart__item');
@@ -109,4 +120,5 @@ window.onload = async () => {
   await createProductList();
   await addProductToShoppingCart();
   getLocal();
+  emptyCart();
 };
