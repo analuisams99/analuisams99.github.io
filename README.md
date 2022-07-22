@@ -1,4 +1,4 @@
-# Boas vindas ao repositório do projeto de Carrinho de Compras!
+# Boas vindas ao projeto de Carrinho de Compras!
 
 ## O que foi desenvolvido
 
@@ -7,7 +7,8 @@ Nesse projeto foi feito um **carrinho de compras** totalmente dinâmico! Consumi
   - Você poderá:
     - Ver uma listagem de produtos;
     - Adicionar produtos ao carrinho de compras;
-    - Remover e/ou limpar os iten do carrinho de compras;
+    - Remover um item do carrinho de compras (clicando em cima do item ques está no carrinho);
+    - Limpar todos os itens do carrinho de compras (Clicando no 'Esvaziar Carrinho')
     - Ver o valor total dos itens do carrinho de compras;
     - (Ao carregar a página, o estado atual do carrinho de compras foi carregado do **LocalStorage**.)
 
